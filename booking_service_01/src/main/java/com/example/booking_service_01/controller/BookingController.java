@@ -44,41 +44,6 @@ public class BookingController {
     @Autowired
     StudentsService studentsService;
 
-
-    //Booking facility, student
-    // @PostMapping(path="/{fno}", produces = "application/json")
-    // public ResponseEntity<?> bookingFacilityStudent(@PathVariable("fno") Integer fno, @RequestBody ForBooking bookingDTO,HttpServletRequest request)  {
-    //     Integer time = bookingDTO.getSelectedTime().getHour();
-    //     Integer seletedHour = bookingDTO.getMaxHour();
-    //     Integer sid = studentsService.checkSessionSid(request);
-    //     if(!facilityService.checkFno(fno)) {
-    //         return new ResponseEntity<>("시설을 확인해 주세요.", HttpStatus.NOT_FOUND);
-    //     }
-    //     else {
-    //         if(time>=24 || time<0) {
-    //             return new ResponseEntity<>("예약 시간을 확인해 주세요.", HttpStatus.NOT_FOUND);  
-    //         }
-    //         LocalDateTime start = LocalDateTime.of(bookingDTO.getDate(), bookingDTO.getSelectedTime());
-    //         LocalDateTime end  = start.plusHours(seletedHour).minusSeconds(1);
-    //         if(bookingService.checkBookingTime(fno, start, end)) {
-    //             for( Integer i = 0; i <bookingDTO.getMaxHour(); i++) {
-    //             BookingDTO newBookingDTO = BookingDTO.builder()
-    //                 .sid(sid)
-    //                 .fno(fno)
-    //                 .startTime(start.plusHours(i))
-    //                 .endTime(start.plusHours(i+1).minusSeconds(1))
-    //                 .maxHour(bookingDTO.getMaxHour())
-    //                 .build();
-                    
-    //                 bookingService.insertBookingDto(newBookingDTO);
-    //             }
-    //             return new ResponseEntity<>(bookingDTO, HttpStatus.CREATED);
-    //         }
-    //         else
-    //             return new ResponseEntity<>("예약 시간을 확인해 주세요.", HttpStatus.NOT_FOUND);  
-    //     }
-    // }
-
     //----------- public -------------//
 
     // 날자에 예약된 목록 조회
@@ -90,7 +55,7 @@ public class BookingController {
     }
 
     //Booking facility, student
-    @PostMapping(path="/{fno}/pub", produces = "application/json")
+    @PostMapping(path="/{fno}", produces = "application/json")
     public ResponseEntity<?> pub(@PathVariable("fno") Integer fno, @RequestBody ForBooking bookingDTO)  {
         Integer time = bookingDTO.getSelectedTime().getHour();
         Integer seletedHour = bookingDTO.getMaxHour();
