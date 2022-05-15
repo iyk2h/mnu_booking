@@ -14,6 +14,7 @@ import com.example.booking_service_01.service.StudentsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,6 +44,11 @@ public class BookingController {
     StudentsService studentsService;
 
     //----------- public -------------//
+
+    @GetMapping(path = "/test", produces = "application/json")
+    public ResponseEntity<?> checklist()  {
+        return new ResponseEntity<>(bookingService.findAll(),HttpStatus.OK);
+    }
 
     // 날자에 예약된 목록 조회
     @PostMapping(path="/{fno}/date", produces = "application/json")
