@@ -27,4 +27,7 @@ public interface BookingRepository extends JpaRepository<Booking, Integer>{
     List<Booking> findAllByFacility(Facility facility, LocalDateTime startTime, LocalDateTime endTime);
     @Query(value = "select b from Booking AS b where b.students= ?1 and b.bno= ?2")
     Booking findBySidBno(Students students, Integer bno);
+
+    @Query(value = "select b from Booking AS b where b.snum = ?1")
+    List<Booking> findBySnum(Integer snum);
 }

@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.example.booking_service_01.dto.BookingDTO;
+import com.example.booking_service_01.dto.SnumDTO;
 import com.example.booking_service_01.dto.ForBooking;
 import com.example.booking_service_01.dto.ForFindDate;
 import com.example.booking_service_01.service.BookingService;
@@ -14,7 +15,6 @@ import com.example.booking_service_01.service.StudentsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -45,9 +45,16 @@ public class BookingController {
 
     //----------- public -------------//
 
-    @GetMapping(path = "/test", produces = "application/json")
-    public ResponseEntity<?> checklist()  {
-        return new ResponseEntity<>(bookingService.findAll(),HttpStatus.OK);
+    @PostMapping(path = "/check", produces = "application/json")
+    public ResponseEntity<?> checklist(@RequestBody SnumDTO snumDTO)  {
+        Integer snum = snumDTO.getSnum();
+        if(bookingService.findBySnum(snum).isEmpty()) {
+            return new ResponseEntity<>("예약건이 없습니다.",HttpStatus.ACCEPTED); 
+        }
+        else {
+            List<BookingDTO> bookingDTOs = bookingService.findBySnum(snum);
+            return new ResponseEntity<>(bookingDTOs,HttpStatus.OK);
+        }
     }
 
     // 날자에 예약된 목록 조회

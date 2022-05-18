@@ -9,6 +9,7 @@ import com.example.booking_service_01.dto.BookingDTO;
 public interface BookingService {
     List<BookingDTO> findAll();
     BookingDTO findByBno(Integer bno);
+    List<BookingDTO> findBySnum(Integer snum);
     boolean checkByBno(Integer bno);
     BookingDTO insertBookingDto(BookingDTO bookingDTO);   
     boolean checkBookingTime(Integer fno, LocalDateTime start, LocalDateTime end);
