@@ -1,7 +1,10 @@
 package com.example.booking_service_01.controller;
 import java.util.List;
 
+import javax.websocket.server.PathParam;
+
 import com.example.booking_service_01.dto.BookingDTO;
+import com.example.booking_service_01.dto.SnumDTO;
 import com.example.booking_service_01.service.BookingService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -56,6 +61,17 @@ public class PubManageController {
         }
         else {
             List<BookingDTO> bookingDTOs = bookingService.findByFno(fno);
+            return new ResponseEntity<>(bookingDTOs,HttpStatus.OK);
+        }
+    }
+    @PostMapping(path = "booking/snum", produces = "application/json")
+    public ResponseEntity<?> getBookingListBySnum(@RequestBody SnumDTO snumDTO)  {
+        Integer snum = snumDTO.getSnum();
+        if(bookingService.findBySnum(snum).isEmpty()) {
+            return new ResponseEntity<>("예약건이 없습니다.",HttpStatus.ACCEPTED); 
+        }
+        else {
+            List<BookingDTO> bookingDTOs = bookingService.findBySnum(snum);
             return new ResponseEntity<>(bookingDTOs,HttpStatus.OK);
         }
     }
