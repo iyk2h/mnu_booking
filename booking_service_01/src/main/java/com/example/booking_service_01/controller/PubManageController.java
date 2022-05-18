@@ -1,9 +1,11 @@
 package com.example.booking_service_01.controller;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.websocket.server.PathParam;
 
 import com.example.booking_service_01.dto.BookingDTO;
+import com.example.booking_service_01.dto.ForFindDate;
 import com.example.booking_service_01.dto.SnumDTO;
 import com.example.booking_service_01.service.BookingService;
 
@@ -73,6 +75,17 @@ public class PubManageController {
         else {
             List<BookingDTO> bookingDTOs = bookingService.findBySnum(snum);
             return new ResponseEntity<>(bookingDTOs,HttpStatus.OK);
+        }
+    }
+    @PostMapping(path = "booking/{fno}/date", produces = "application/json")
+    public ResponseEntity<?> getBookingListByDate(@PathVariable("fno") Integer fno, @RequestBody ForFindDate bookingDTO) {
+        LocalDate date =bookingDTO.getDate();
+        List<BookingDTO> bookingDTOs = bookingService.findBookingListByFacilityWhitDate(fno, date);
+        if(bookingDTOs.isEmpty()){
+            return new ResponseEntity<>("예약건이 없습니다.",HttpStatus.ACCEPTED);  
+        }
+        else {
+            return new ResponseEntity<>(bookingDTOs, HttpStatus.CREATED);
         }
     }
 }
