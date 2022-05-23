@@ -47,6 +47,9 @@ public class Booking {
     @Column(name="s_major",nullable = false)
     private String smajor;
 
+    @Column(name="s_pw",nullable = false)
+    private String spw;
+
     @Column(name="start_time", nullable = false)
     private LocalDateTime startTime;
  

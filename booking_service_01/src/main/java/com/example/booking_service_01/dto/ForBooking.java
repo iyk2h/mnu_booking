@@ -21,4 +21,6 @@ public class ForBooking {
     String sname;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "test")
     String smajor;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "test")
+    String spw;
 }

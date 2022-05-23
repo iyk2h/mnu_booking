@@ -7,6 +7,7 @@ import javax.websocket.server.PathParam;
 import com.example.booking_service_01.dto.BookingDTO;
 import com.example.booking_service_01.dto.ForFindDate;
 import com.example.booking_service_01.dto.SnumDTO;
+import com.example.booking_service_01.dto.SnumPwDTO;
 import com.example.booking_service_01.service.BookingService;
 
 import org.springframework.beans.factory.annotation.Autowired;

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.booking_service_01.dto.BookingDTO;
-import com.example.booking_service_01.dto.SnumDTO;
+import com.example.booking_service_01.dto.SnumPwDTO;
 import com.example.booking_service_01.entity.Booking;
 import com.example.booking_service_01.entity.Facility;
 import com.example.booking_service_01.entity.Students;
@@ -142,5 +142,14 @@ public class BookingServiceImpl implements BookingService {
         List<Booking> bookings = bookingRepository.findBySnum(snum);
         List<BookingDTO> bookingDTOs = BookingMapper.INSTANCE.booking_To_List_DTO(bookings);
         return bookingDTOs;
+    }
+    @Override
+    public boolean checkSnumSpw(SnumPwDTO snumPwDTO) {
+        if ( findByBno(snumPwDTO.getBno()).getSpw().equals(snumPwDTO.getSpw())) {
+            deleteBooking(snumPwDTO.getBno());
+            return true;
+        }
+        else
+            return false;
     }
 }

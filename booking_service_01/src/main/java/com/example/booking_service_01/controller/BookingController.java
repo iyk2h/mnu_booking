@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.example.booking_service_01.dto.BookingDTO;
 import com.example.booking_service_01.dto.SnumDTO;
+import com.example.booking_service_01.dto.SnumPwDTO;
 import com.example.booking_service_01.dto.ForBooking;
 import com.example.booking_service_01.dto.ForFindDate;
 import com.example.booking_service_01.service.BookingService;
@@ -15,6 +16,7 @@ import com.example.booking_service_01.service.StudentsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -56,7 +58,22 @@ public class BookingController {
             return new ResponseEntity<>(bookingDTOs,HttpStatus.OK);
         }
     }
-
+    @DeleteMapping(path = "booking/snum", produces = "application/json")
+    public ResponseEntity<?> getBookingListBySnumWhitPW(@RequestBody SnumPwDTO snumPwDTO)  {
+        Integer snum = snumPwDTO.getSnum();
+        if(bookingService.findBySnum(snum).isEmpty()) {
+            return new ResponseEntity<>("예약건이 없습니다.",HttpStatus.ACCEPTED); 
+        }
+        else if (!bookingService.checkByBno(snumPwDTO.getBno())) {
+            return new ResponseEntity<>("예약 번호가 잘 못 되었습니다.",HttpStatus.ACCEPTED); 
+        }
+        else {
+            if(bookingService.checkSnumSpw(snumPwDTO)){
+                return new ResponseEntity<>("삭제 되었습니다.",HttpStatus.NO_CONTENT); 
+            }
+            return new ResponseEntity<>("입력한 정보가 정확하지 않습니다.",HttpStatus.ACCEPTED);
+        }
+    }
     // 날자에 예약된 목록 조회
     @PostMapping(path="/{fno}/date", produces = "application/json")
     public ResponseEntity<?> bookingByDate(@PathVariable("fno") Integer fno, @RequestBody ForFindDate bookingDTO) {
@@ -88,6 +105,9 @@ public class BookingController {
             if(bookingDTO.getSmajor() == null) {
                 return new ResponseEntity<>("학과를 일력해 주세요.", HttpStatus.ACCEPTED); 
             }
+            if(bookingDTO.getSpw() == null) {
+                return new ResponseEntity<>("비밀번호 를 일력해 주세요.", HttpStatus.ACCEPTED); 
+            }
             if(bookingService.checkBookingTime(fno, start, end)) {
                 for( Integer i = 0; i <bookingDTO.getMaxHour(); i++) {
                 BookingDTO newBookingDTO = BookingDTO.builder()
@@ -96,6 +116,7 @@ public class BookingController {
                     .sname(bookingDTO.getSname())
                     .snum(bookingDTO.getSnum())
                     .smajor(bookingDTO.getSmajor())
+                    .spw(bookingDTO.getSpw())
                     .startTime(start.plusHours(i))
                     .endTime(start.plusHours(i+1).minusSeconds(1))
                     .maxHour(bookingDTO.getMaxHour())

@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.example.booking_service_01.dto.BookingDTO;
+import com.example.booking_service_01.dto.SnumPwDTO;
 
 public interface BookingService {
     List<BookingDTO> findAll();
@@ -20,4 +21,5 @@ public interface BookingService {
     List<BookingDTO> findBookingListByDate(LocalDate date);
     List<BookingDTO> findBookingListByFacilityWhitDate(Integer fno, LocalDate date);
     void deleteBooking (Integer bno);
+    boolean checkSnumSpw(SnumPwDTO snumPwDTO);
 }

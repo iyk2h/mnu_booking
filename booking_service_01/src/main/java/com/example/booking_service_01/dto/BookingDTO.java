@@ -24,6 +24,7 @@ public class BookingDTO {
     private Integer snum;
     private String sname;
     private String smajor;
+    private String spw;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
     private LocalDateTime startTime;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
